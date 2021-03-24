@@ -3,6 +3,9 @@ package com.dags.msscbrewery.web.controller.v2;
 
 import com.dags.msscbrewery.web.model.v2.BeerDtoV2;
 import com.dags.msscbrewery.web.services.v2.BeerServiceV2;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @RequestMapping("/api/v2/beer")
 @RestController
 public class BeerControllerV2 {
@@ -31,9 +35,10 @@ public class BeerControllerV2 {
     @PostMapping
     public ResponseEntity<?> handlePost(@Valid @RequestBody BeerDtoV2 beerDto){
 
-        BeerDtoV2 savedDto =beerService.saveNewBeer(beerDto);
+        log.debug("in handle post...");
+        val savedDto = beerService.saveNewBeer(beerDto);
 
-        HttpHeaders headers = new HttpHeaders();
+        var headers = new HttpHeaders();
         //todo: hostname url
         headers.add("Location", "/api/v2/beer/" + savedDto.getId().toString());
 
